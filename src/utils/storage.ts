@@ -3,7 +3,7 @@ export const setItem = <T>(key: string, value: T) => {
   localStorage.setItem(key, parsedValue);
 };
 
-export const getItem = <T>(key: string) => {
+export const getItem = <T>(key: string): T | null => {
   const value = localStorage.getItem(key);
   if (!value) {
     return null;
