@@ -3,6 +3,7 @@ import { onMounted, ref } from '@vue/runtime-core';
 import { Ref } from '@vue/reactivity';
 import { getMergeRequestApprovals } from '../store/gitlab/service';
 import { GitLabMergeRequest, GitLabMergeRequestApproval } from '../types/gitlab';
+import moment from 'moment';
 const props = defineProps<{ mergeRequest: GitLabMergeRequest }>();
 console.log(`DEBUG ~ file: MergeRequestRecord.vue ~ line 4 ~ props`, props);
 
@@ -16,6 +17,10 @@ onMounted(async () => {
     approvalData
   );
 });
+
+const getComputed = (date: string) => {
+  return moment(date).fromNow();
+};
 </script>
 
 <template>
@@ -32,15 +37,25 @@ onMounted(async () => {
             {{ approver.username }}
           </span>
         </div>
-        <div class="merge-status">
-          {{ approvalData.approvals.merge_status }}
+        <div class="approvel-rules-left">
+          <span :key="rule" v-for="rule in approvalData.approvals?.approval_rules_left">
+            {{ rule.name }}
+          </span>
         </div>
+        <div class="merge-status">status: {{ mergeRequest.merge_status }}</div>
+        <div class="merge-status">has_conflicts: {{ mergeRequest.has_conflicts }}</div>
+        <div class="merge-status">draft: {{ mergeRequest.draft }}</div>
+        <div class="merge-status">updated_at: {{ getComputed(mergeRequest.updated_at) }}</div>
+        <div class="merge-status">created_at: {{ getComputed(mergeRequest.created_at) }}</div>
         <div class="merge-state">
-          {{ approvalData.approvals.state }}
+          {{ approvalData.approvals?.state }}
         </div>
-        <div class="merge-state">left: {{ approvalData.approvals.approvals_left }}</div>
-        <div class="merge-state">required: {{ approvalData.approvals.approvals_required }}</div>
-        <div class="merge-state">approved: {{ approvalData.approvals.approved }}</div>
+        <div class="merge-state">left: {{ approvalData.approvals?.approvals_left }}</div>
+        <div class="merge-state">required: {{ approvalData.approvals?.approvals_required }}</div>
+        <div class="merge-state">approved: {{ approvalData.approvals?.approved }}</div>
+        <div class="blocking-discussions-resolved">
+          blocking_discussions_resolved: {{ mergeRequest.blocking_discussions_resolved }}
+        </div>
       </div>
       <div class="actions">
         <a :href="mergeRequest.web_url" target="_blank">View MR</a>
