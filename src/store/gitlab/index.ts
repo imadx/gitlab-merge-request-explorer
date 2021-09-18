@@ -1,12 +1,12 @@
 import { ActionContext } from 'vuex';
 import { GitLabMergeRequest, GitLabStore, GitLabUser } from '../../types/gitlab';
-import { Store } from '../../types/store';
+import { Mapping, Store } from '../../types/store';
 import { getItem, setItem } from '../../utils/storage';
 import { getFilteredMergeRequests, getMergeRequests } from './service';
 
 const localStorageKeyForActiveUsers = 'active_users';
 
-const userDetailsCache = new Map<string, GitLabUser>();
+const userDetailsCache: Mapping<GitLabUser> = {};
 
 export const module = {
   state() {
@@ -117,7 +117,7 @@ const getAllUsers = (mergeRequests: GitLabMergeRequest[]): string[] => {
 
     if (!users.has(username)) {
       users.add(username);
-      userDetailsCache.set(username, author);
+      userDetailsCache[username] = author;
     }
   });
 

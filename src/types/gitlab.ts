@@ -1,3 +1,5 @@
+import { Mapping } from './store';
+
 export interface GitLabUser {
   id: number;
   name: string;
@@ -73,7 +75,7 @@ export interface GitLabMergeRequestApproval {
 export interface GitLabStore {
   mergeRequests: GitLabMergeRequest[];
   allUsers: string[];
-  allUserDetails: Map<string, GitLabUser>;
+  allUserDetails: Mapping<GitLabUser>;
   activeUsers: string[];
   currentPage: number;
   currentFetchedPage: number;

@@ -4,23 +4,21 @@ import { Ref } from '@vue/reactivity';
 import { getMergeRequestApprovals } from '../store/gitlab/service';
 import { GitLabMergeRequest, GitLabMergeRequestApproval } from '../types/gitlab';
 import moment from 'moment';
+import { store } from '../store';
 const props = defineProps<{ mergeRequest: GitLabMergeRequest }>();
-console.log(`DEBUG ~ file: MergeRequestRecord.vue ~ line 4 ~ props`, props);
 
 const approvalData: Ref<{ approvals: GitLabMergeRequestApproval | null }> = ref({
   approvals: null,
 });
 onMounted(async () => {
   approvalData.value.approvals = await (await getMergeRequestApprovals(props.mergeRequest)).data;
-  console.log(
-    `DEBUG ~ file: MergeRequestRecord.vue ~ line 11 ~ onMounted ~ approvals`,
-    approvalData
-  );
 });
 
 const getComputed = (date: string) => {
   return moment(date).fromNow();
 };
+
+const state = store.state;
 </script>
 
 <template>
@@ -33,8 +31,13 @@ const getComputed = (date: string) => {
           {{ mergeRequest.author.name }}
         </div>
         <div class="approvers">
+          <span>Approvers</span>
           <span :key="approver" v-for="approver in approvalData.approvals?.suggested_approvers">
-            {{ approver.username }}
+            <img
+              class="avatar"
+              :src="state.gitlab.allUserDetails[approver.username]?.avatar_url"
+              alt=""
+            />
           </span>
         </div>
         <div class="approvel-rules-left">
