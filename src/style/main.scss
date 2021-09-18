@@ -1,0 +1,25 @@
+$color-black: #2e3440;
+$color-white: #fff;
+$color-accent-1: #ebcb8b;
+
+body {
+  font-family: monospace;
+  background-color: $color-black;
+  color: $color-white;
+}
+
+a,
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: $color-accent-1;
+  padding: 0.3rem;
+  border-radius: 0.2rem;
+  white-space: nowrap;
+
+  &:hover {
+    background: $color-accent-1;
+    color: $color-black;
+  }
+}
