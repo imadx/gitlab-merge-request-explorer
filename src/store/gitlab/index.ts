@@ -1,15 +1,17 @@
-import { Action, ActionContext } from 'vuex';
+import { ActionContext } from 'vuex';
 import { GitLabMergeRequest, GitLabStore } from '../../types/gitlab';
 import { Store } from '../../types/store';
 import { getItem, setItem } from '../../utils/storage';
 import { getFilteredMergeRequests, getMergeRequests } from './actions';
+
+const localStorageKeyForActiveUsers = 'active_users';
 
 export const module = {
   state() {
     return {
       mergeRequests: [],
       allUsers: [],
-      activeUsers: [],
+      activeUsers: null,
       currentPage: 1,
       currentFetchedPage: 1,
     };
@@ -21,17 +23,20 @@ export const module = {
     setAllUsers(state: GitLabStore, { allUsers }: { allUsers: string[] }) {
       state.allUsers = [...allUsers];
     },
-    addActiveUser(state: GitLabStore, user: string) {
-      if (!state.activeUsers.includes(user)) {
-        state.activeUsers.push(user);
-      }
+    initializeActiveUsers(state: GitLabStore) {
+      const activeUsers = getItem<string[]>(localStorageKeyForActiveUsers) || [];
+      state.activeUsers = activeUsers;
     },
-    removeActiveUser(state: GitLabStore, user: string) {
+    toggleActiveUser(state: GitLabStore, user: string) {
       const activeUsers = new Set([...state.activeUsers]);
       if (activeUsers.has(user)) {
         activeUsers.delete(user);
+      } else {
+        activeUsers.add(user);
       }
+
       state.activeUsers = [...activeUsers];
+      setItem(localStorageKeyForActiveUsers, state.activeUsers);
     },
     setPage(state: GitLabStore, page: number) {
       state.currentPage = page;
@@ -45,20 +50,13 @@ export const module = {
       const localStorageKey = `merge_requests_${currentGitLabPageToFetch}`;
       const cachedResults = getItem<GitLabMergeRequest[]>(localStorageKey);
       if (cachedResults) {
-        const results = getPageFromDataset(cachedResults, currentPage, currentGitLabPageToFetch);
-        context.commit('setMergeRequests', { mergeRequests: results });
+        handleMergeRequestUpdate(context, cachedResults, currentPage, currentGitLabPageToFetch);
         return;
       }
 
       const mergeRequests = await (await getMergeRequests(currentGitLabPageToFetch)).data;
       setItem(localStorageKey, mergeRequests);
-
-      const allUsers = getAllUsers(mergeRequests);
-      context.commit('setAllUsers', { allUsers });
-
-      const results = getPageFromDataset(mergeRequests, currentPage, currentGitLabPageToFetch);
-      const filteredResults = getFilteredMergeRequests(results, context.state.activeUsers);
-      context.commit('setMergeRequests', { mergeRequests: filteredResults });
+      handleMergeRequestUpdate(context, mergeRequests, currentPage, currentGitLabPageToFetch);
     },
     async previousPage(context: ActionContext<GitLabStore, Store>) {
       context.commit('setPage', Math.max(1, context.state.currentPage - 1));
@@ -68,15 +66,32 @@ export const module = {
       context.commit('setPage', Math.min(50, context.state.currentPage + 1));
       await context.dispatch('fetchMergeRequests');
     },
-    async addActiveUser(context: ActionContext<GitLabStore, Store>, user: string) {
-      context.commit('addActiveUser', user);
+    async toggleActiveUser(context: ActionContext<GitLabStore, Store>, user: string) {
+      context.commit('toggleActiveUser', user);
       await context.dispatch('fetchMergeRequests');
     },
-    async removeActiveUser(context: ActionContext<GitLabStore, Store>, user: string) {
-      context.commit('removeActiveUser', user);
-      await context.dispatch('fetchMergeRequests');
+    async initializeActiveUsers(context: ActionContext<GitLabStore, Store>) {
+      context.commit('initializeActiveUsers');
     },
   },
+};
+
+const handleMergeRequestUpdate = async (
+  context: ActionContext<GitLabStore, Store>,
+  mergeRequests: GitLabMergeRequest[],
+  currentPage: number,
+  currentGitLabPageToFetch: number
+) => {
+  const allUsers = getAllUsers(mergeRequests);
+  context.commit('setAllUsers', { allUsers });
+
+  if (!context.state.activeUsers) {
+    await context.dispatch('initializeActiveUsers');
+  }
+
+  const filteredResults = getFilteredMergeRequests(mergeRequests, context.state.activeUsers);
+  const results = getPageFromDataset(filteredResults, currentPage, currentGitLabPageToFetch);
+  context.commit('setMergeRequests', { mergeRequests: results });
 };
 
 const getPageFromDataset = (dataset: GitLabMergeRequest[], currentPage: number, currentGitlabPage: number) => {

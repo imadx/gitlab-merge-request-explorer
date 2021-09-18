@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import MergeRequestRecord from './MergeRequestRecord.vue';
+import Users from './Users.vue';
 import { store } from '../store';
 
 const state = store.state;
@@ -29,6 +30,7 @@ const handleNextPage = () => {
       <button @click="handlePreviousPage">⬅</button>
       <button @click="handleNextPage">➡</button>
     </div>
+    <Users />
   </header>
   <MergeRequestRecord
     :key="mergeRequest.id"
@@ -42,6 +44,7 @@ header {
   margin-bottom: 1rem;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 
   .heading {
     flex: 1;
