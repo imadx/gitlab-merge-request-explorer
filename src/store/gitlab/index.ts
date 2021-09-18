@@ -17,7 +17,10 @@ export const module = {
     };
   },
   mutations: {
-    setMergeRequests(state: GitLabStore, { mergeRequests }: { mergeRequests: GitLabMergeRequest[] }) {
+    setMergeRequests(
+      state: GitLabStore,
+      { mergeRequests }: { mergeRequests: GitLabMergeRequest[] }
+    ) {
       state.mergeRequests = [...mergeRequests];
     },
     setAllUsers(state: GitLabStore, { allUsers }: { allUsers: string[] }) {
@@ -94,7 +97,11 @@ const handleMergeRequestUpdate = async (
   context.commit('setMergeRequests', { mergeRequests: results });
 };
 
-const getPageFromDataset = (dataset: GitLabMergeRequest[], currentPage: number, currentGitlabPage: number) => {
+const getPageFromDataset = (
+  dataset: GitLabMergeRequest[],
+  currentPage: number,
+  currentGitlabPage: number
+) => {
   const page = currentPage - (currentGitlabPage - 1) * 10;
   return [...dataset].splice((page - 1) * 10, 10);
 };

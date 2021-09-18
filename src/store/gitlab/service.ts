@@ -1,8 +1,5 @@
 import axios, { AxiosResponse, Method } from 'axios';
-import {
-  GitLabMergeRequest,
-  GitLabMergeRequestApproval,
-} from '../../types/gitlab';
+import { GitLabMergeRequest, GitLabMergeRequestApproval } from '../../types/gitlab';
 import { getItem, setItem } from '../../utils/storage';
 
 const authHeaderKey = 'auth_header';
