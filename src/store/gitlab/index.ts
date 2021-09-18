@@ -2,7 +2,7 @@ import { ActionContext } from 'vuex';
 import { GitLabMergeRequest, GitLabStore } from '../../types/gitlab';
 import { Store } from '../../types/store';
 import { getItem, setItem } from '../../utils/storage';
-import { getFilteredMergeRequests, getMergeRequests } from './actions';
+import { getFilteredMergeRequests, getMergeRequests } from './service';
 
 const localStorageKeyForActiveUsers = 'active_users';
 

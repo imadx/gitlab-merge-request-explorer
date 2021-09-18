@@ -1,6 +1,21 @@
 <script setup lang="ts">
-import { GitLabMergeRequest } from '../types/gitlab';
-defineProps<{ mergeRequest: GitLabMergeRequest }>();
+import { onMounted, ref } from '@vue/runtime-core';
+import { Ref } from '@vue/reactivity';
+import { getMergeRequestApprovals } from '../store/gitlab/service';
+import { GitLabMergeRequest, GitLabMergeRequestApproval } from '../types/gitlab';
+const props = defineProps<{ mergeRequest: GitLabMergeRequest }>();
+console.log(`DEBUG ~ file: MergeRequestRecord.vue ~ line 4 ~ props`, props);
+
+const approvalData: Ref<{ approvals: GitLabMergeRequestApproval | null }> = ref({
+  approvals: null,
+});
+onMounted(async () => {
+  approvalData.value.approvals = await (await getMergeRequestApprovals(props.mergeRequest)).data;
+  console.log(
+    `DEBUG ~ file: MergeRequestRecord.vue ~ line 11 ~ onMounted ~ approvals`,
+    approvalData
+  );
+});
 </script>
 
 <template>
@@ -12,6 +27,20 @@ defineProps<{ mergeRequest: GitLabMergeRequest }>();
           <img :src="mergeRequest.author.avatar_url" alt="" />
           {{ mergeRequest.author.name }}
         </div>
+        <div class="approvers">
+          <span :key="approver" v-for="approver in approvalData.approvals?.suggested_approvers">
+            {{ approver.username }}
+          </span>
+        </div>
+        <div class="merge-status">
+          {{ approvalData.approvals.merge_status }}
+        </div>
+        <div class="merge-state">
+          {{ approvalData.approvals.state }}
+        </div>
+        <div class="merge-state">left: {{ approvalData.approvals.approvals_left }}</div>
+        <div class="merge-state">required: {{ approvalData.approvals.approvals_required }}</div>
+        <div class="merge-state">approved: {{ approvalData.approvals.approved }}</div>
       </div>
       <div class="actions">
         <a :href="mergeRequest.web_url" target="_blank">View MR</a>
@@ -40,7 +69,6 @@ defineProps<{ mergeRequest: GitLabMergeRequest }>();
       border-radius: 25px;
       margin-right: 0.5rem;
       border: solid thin #333;
-
     }
   }
 
