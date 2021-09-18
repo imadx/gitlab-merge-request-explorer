@@ -35,10 +35,7 @@ export interface GitLabMergeRequest {
   draft: boolean;
   work_in_progress: boolean;
   merge_when_pipeline_succeeds: boolean;
-  merge_status:
-    | 'can_be_merged'
-    | 'cannot_be_merged'
-    | 'cannot_be_merged_recheck';
+  merge_status: 'can_be_merged' | 'cannot_be_merged' | 'cannot_be_merged_recheck';
   sha: string;
   squash_commit_sha: string;
   should_remove_source_branch: boolean;
