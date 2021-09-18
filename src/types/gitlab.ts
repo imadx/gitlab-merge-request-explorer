@@ -73,6 +73,7 @@ export interface GitLabMergeRequestApproval {
 export interface GitLabStore {
   mergeRequests: GitLabMergeRequest[];
   allUsers: string[];
+  allUserDetails: Map<string, GitLabUser>;
   activeUsers: string[];
   currentPage: number;
   currentFetchedPage: number;

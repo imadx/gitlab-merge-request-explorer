@@ -1,16 +1,19 @@
 import { ActionContext } from 'vuex';
-import { GitLabMergeRequest, GitLabStore } from '../../types/gitlab';
+import { GitLabMergeRequest, GitLabStore, GitLabUser } from '../../types/gitlab';
 import { Store } from '../../types/store';
 import { getItem, setItem } from '../../utils/storage';
 import { getFilteredMergeRequests, getMergeRequests } from './service';
 
 const localStorageKeyForActiveUsers = 'active_users';
 
+const userDetailsCache = new Map<string, GitLabUser>();
+
 export const module = {
   state() {
     return {
       mergeRequests: [],
       allUsers: [],
+      allUserDetails: {},
       activeUsers: null,
       currentPage: 1,
       currentFetchedPage: 1,
@@ -24,6 +27,7 @@ export const module = {
       state.mergeRequests = [...mergeRequests];
     },
     setAllUsers(state: GitLabStore, { allUsers }: { allUsers: string[] }) {
+      state.allUserDetails = userDetailsCache;
       state.allUsers = [...allUsers];
     },
     initializeActiveUsers(state: GitLabStore) {
@@ -108,9 +112,12 @@ const getPageFromDataset = (
 
 const getAllUsers = (mergeRequests: GitLabMergeRequest[]): string[] => {
   const users = new Set<string>();
-  mergeRequests.forEach(({ author: { username } }) => {
+  mergeRequests.forEach(({ author }) => {
+    const { username } = author;
+
     if (!users.has(username)) {
       users.add(username);
+      userDetailsCache.set(username, author);
     }
   });
 
