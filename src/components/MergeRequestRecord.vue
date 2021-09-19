@@ -35,8 +35,8 @@ const state = store.state;
             <img class="avatar" :src="mergeRequest.author.avatar_url" alt="" />
           </div>
         </div>
-        <div class="detail-item">
-          <span class="detail-item-title">Approvers</span>
+        <div class="detail-item has-revealing-content">
+          <span class="detail-item-title">APPROVERS</span>
           <div class="detail-item-description">
             <img
               :key="approver"
@@ -47,29 +47,62 @@ const state = store.state;
               :title="state.gitlab.allUserDetails[approver.username]?.username"
             />
           </div>
-        </div>
-        <div class="detail-item">
-          <span class="detail-item-title">Rules</span>
-          <div class="detail-item-description detail-item-description--column">
-            <span
-              class="field"
-              :key="rule"
-              v-for="rule in approvalData.approvals?.approval_rules_left"
-            >
-              {{ rule.name }}
-            </span>
+          <div class="detail-item revealing-content">
+            <span class="detail-item-title">Rules</span>
+            <div class="detail-item-description detail-item-description--column">
+              <span
+                class="field"
+                :key="rule"
+                v-for="rule in approvalData.approvals?.approval_rules_left"
+              >
+                {{ rule.name }}
+              </span>
+            </div>
           </div>
         </div>
-        <div class="merge-status">status: {{ mergeRequest.merge_status }}</div>
-        <div class="merge-status">has_conflicts: {{ mergeRequest.has_conflicts }}</div>
-        <div class="merge-status">draft: {{ mergeRequest.draft }}</div>
-        <div class="merge-status">updated_at: {{ getComputed(mergeRequest.updated_at) }}</div>
-        <div class="merge-status">created_at: {{ getComputed(mergeRequest.created_at) }}</div>
-        <div class="merge-state">left: {{ approvalData.approvals?.approvals_left }}</div>
-        <div class="merge-state">required: {{ approvalData.approvals?.approvals_required }}</div>
-        <div class="merge-state">approved: {{ approvalData.approvals?.approved }}</div>
-        <div class="blocking-discussions-resolved">
-          blocking_discussions_resolved: {{ mergeRequest.blocking_discussions_resolved }}
+        <div class="detail-item">
+          <span class="detail-item-title">STATUS</span>
+          <div class="detail-item-description">
+            <div class="merge-request-status merge-request-status--status">
+              {{ mergeRequest.merge_status }}
+            </div>
+            <div
+              v-if="mergeRequest.has_conflicts"
+              class="merge-request-status merge-request-status--has-conflicts"
+            >
+              HAS CONFLICTS
+            </div>
+            <div
+              v-if="mergeRequest.draft"
+              class="merge-request-status merge-request-status--is-draft"
+            >
+              DRAFT
+            </div>
+            <div
+              v-if="approvalData.approvals?.approved"
+              class="merge-request-status merge-request-status--is-approved"
+            >
+              APPROVED
+            </div>
+            <div
+              v-if="!mergeRequest.blocking_discussions_resolved"
+              class="merge-request-status merge-request-status--has-blocking-discussions"
+            >
+              HAS BLOCKING DISCUSSIONS
+            </div>
+          </div>
+        </div>
+        <div class="detail-item">
+          <span class="detail-item-title">CREATED AT</span>
+          <div class="detail-item-description">
+            {{ getComputed(mergeRequest.created_at) }}
+          </div>
+        </div>
+        <div class="detail-item">
+          <span class="detail-item-title">UPDATED AT</span>
+          <div class="detail-item-description">
+            {{ getComputed(mergeRequest.updated_at) }}
+          </div>
         </div>
       </div>
       <div class="actions">

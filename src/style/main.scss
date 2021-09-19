@@ -1,5 +1,6 @@
 $color-black: #2e3440;
-$color-white: #fff;
+$color-black-light: #3b4252;
+$color-white: #e5e9f0;
 $color-accent-1: #ebcb8b;
 
 body {
@@ -55,8 +56,12 @@ button {
 
   .detail-item {
     .detail-item-title {
+      display: block;
       text-transform: uppercase;
-      font-size: smaller;
+      font-size: small;
+      font-weight: bold;
+      margin-right: 1rem;
+      padding-bottom: 0.4rem;
     }
 
     .detail-item-description {
@@ -79,4 +84,38 @@ button {
 .field {
   white-space: nowrap;
   display: block;
+}
+
+.has-revealing-content {
+  position: relative;
+
+  .revealing-content {
+    pointer-events: none;
+    display: block;
+    position: absolute;
+    top: calc(100% + 1rem);
+    background-color: $color-black-light;
+    padding: 0.5rem;
+    opacity: 0;
+    transform: translateY(-1rem);
+    transition: transform 0.1s, opacity 0.1s;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 1rem;
+      height: 1rem;
+      background-color: $color-black-light;
+      transform: rotate(45deg) translateX(-50%);
+    }
+  }
+
+  &:hover {
+    .revealing-content {
+      transform: translateY(0rem);
+      opacity: 1;
+    }
+  }
 }
