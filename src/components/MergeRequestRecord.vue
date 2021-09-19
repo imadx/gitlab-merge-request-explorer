@@ -53,9 +53,6 @@ const state = store.state;
         <div class="merge-status">draft: {{ mergeRequest.draft }}</div>
         <div class="merge-status">updated_at: {{ getComputed(mergeRequest.updated_at) }}</div>
         <div class="merge-status">created_at: {{ getComputed(mergeRequest.created_at) }}</div>
-        <div class="merge-state">
-          {{ approvalData.approvals?.state }}
-        </div>
         <div class="merge-state">left: {{ approvalData.approvals?.approvals_left }}</div>
         <div class="merge-state">required: {{ approvalData.approvals?.approvals_required }}</div>
         <div class="merge-state">approved: {{ approvalData.approvals?.approved }}</div>
