@@ -26,27 +26,39 @@ const state = store.state;
 
 <template>
   <div class="merge-request-record">
-    <div class="title">{{ mergeRequest.title }}</div>
-    <div class="details">
-      <div class="detail-items">
-        <div class="author">
-          <img :src="mergeRequest.author.avatar_url" alt="" />
-          {{ mergeRequest.author.name }}
+    <div class="merge-request-record-title">{{ mergeRequest.title }}</div>
+    <div class="merge-request-record-description">
+      <div class="detail-item-container">
+        <div class="detail-item">
+          <span class="detail-item-title">AUTHOR</span>
+          <div class="detail-item-description">
+            <img class="avatar" :src="mergeRequest.author.avatar_url" alt="" />
+          </div>
         </div>
-        <div class="approvers">
-          <span>Approvers</span>
-          <span :key="approver" v-for="approver in approvalData.approvals?.suggested_approvers">
+        <div class="detail-item">
+          <span class="detail-item-title">Approvers</span>
+          <div class="detail-item-description">
             <img
+              :key="approver"
+              v-for="approver in approvalData.approvals?.suggested_approvers"
               class="avatar"
               :src="state.gitlab.allUserDetails[approver.username]?.avatar_url"
-              alt=""
+              :alt="state.gitlab.allUserDetails[approver.username]?.username"
+              :title="state.gitlab.allUserDetails[approver.username]?.username"
             />
-          </span>
+          </div>
         </div>
-        <div class="approvel-rules-left">
-          <span :key="rule" v-for="rule in approvalData.approvals?.approval_rules_left">
-            {{ rule.name }}
-          </span>
+        <div class="detail-item">
+          <span class="detail-item-title">Rules</span>
+          <div class="detail-item-description detail-item-description--column">
+            <span
+              class="field"
+              :key="rule"
+              v-for="rule in approvalData.approvals?.approval_rules_left"
+            >
+              {{ rule.name }}
+            </span>
+          </div>
         </div>
         <div class="merge-status">status: {{ mergeRequest.merge_status }}</div>
         <div class="merge-status">has_conflicts: {{ mergeRequest.has_conflicts }}</div>
@@ -66,37 +78,3 @@ const state = store.state;
     </div>
   </div>
 </template>
-
-<style scoped lang="scss">
-.merge-request-record {
-  text-align: left;
-  margin-bottom: 1rem;
-
-  .title {
-    font-weight: bold;
-    font-size: 1.1em;
-  }
-
-  .author {
-    display: flex;
-    align-items: center;
-
-    img {
-      width: 25px;
-      height: 25px;
-      border-radius: 25px;
-      margin-right: 0.5rem;
-      border: solid thin #333;
-    }
-  }
-
-  .details {
-    display: flex;
-    align-items: center;
-    margin-top: 0.3rem;
-    .detail-items {
-      flex: 1;
-    }
-  }
-}
-</style>

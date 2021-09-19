@@ -35,3 +35,48 @@ button {
   background: $color-white;
   border-radius: 50%;
 }
+
+.merge-request-record {
+  display: flex;
+  flex-direction: column;
+
+  .merge-request-record-title {
+    font-weight: bold;
+    font-size: 1.1em;
+  }
+  .merge-request-record-description {
+    display: flex;
+  }
+}
+
+.detail-item-container {
+  display: flex;
+  align-items: center;
+
+  .detail-item {
+    .detail-item-title {
+      text-transform: uppercase;
+      font-size: smaller;
+    }
+
+    .detail-item-description {
+      display: flex;
+
+      &.detail-item-description--column {
+        flex-direction: column;
+      }
+    }
+  }
+}
+
+.avatar {
+  width: 25px;
+  height: 25px;
+  border-radius: 25px;
+  border: solid thin #333;
+}
+
+.field {
+  white-space: nowrap;
+  display: block;
+}
