@@ -14,8 +14,6 @@ button {
   cursor: pointer;
   background: none;
   border: solid thin $color-accent-1;
-  margin-right: 0.5rem;
-  margin-bottom: 0.5rem;
   color: $color-accent-1;
   padding: 0.3rem;
   border-radius: 0.2rem;
@@ -53,8 +51,27 @@ button {
 .detail-item-container {
   display: flex;
   align-items: center;
+  width: 100%;
 
+  .detail-item--right {
+    flex: 1;
+    display: flex;
+  }
+
+  .detail-item--actions {
+    text-align: right;
+
+    .detail-item-title {
+      margin-right: 0 !important;
+    }
+  }
   .detail-item {
+    margin-right: 1rem;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
     .detail-item-title {
       display: block;
       text-transform: uppercase;

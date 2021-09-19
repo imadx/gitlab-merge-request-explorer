@@ -29,37 +29,40 @@ const state = store.state;
     <div class="merge-request-record-title">{{ mergeRequest.title }}</div>
     <div class="merge-request-record-description">
       <div class="detail-item-container">
-        <div class="detail-item">
-          <span class="detail-item-title">AUTHOR</span>
-          <div class="detail-item-description">
-            <img class="avatar" :src="mergeRequest.author.avatar_url" alt="" />
+        <div class="detail-item--right">
+          <div class="detail-item">
+            <span class="detail-item-title">AUTHOR</span>
+            <div class="detail-item-description">
+              <img class="avatar" :src="mergeRequest.author.avatar_url" alt="" />
+            </div>
           </div>
-        </div>
-        <div class="detail-item has-revealing-content">
-          <span class="detail-item-title">APPROVERS</span>
-          <div class="detail-item-description">
-            <img
-              :key="approver"
-              v-for="approver in approvalData.approvals?.suggested_approvers"
-              class="avatar"
-              :src="state.gitlab.allUserDetails[approver.username]?.avatar_url"
-              :alt="state.gitlab.allUserDetails[approver.username]?.username"
-              :title="state.gitlab.allUserDetails[approver.username]?.username"
-            />
-          </div>
-          <div class="detail-item revealing-content">
-            <span class="detail-item-title">Rules</span>
-            <div class="detail-item-description detail-item-description--column">
-              <span
-                class="field"
-                :key="rule"
-                v-for="rule in approvalData.approvals?.approval_rules_left"
-              >
-                {{ rule.name }}
-              </span>
+          <div class="detail-item has-revealing-content">
+            <span class="detail-item-title">APPROVERS</span>
+            <div class="detail-item-description">
+              <img
+                :key="approver"
+                v-for="approver in approvalData.approvals?.suggested_approvers"
+                class="avatar"
+                :src="state.gitlab.allUserDetails[approver.username]?.avatar_url"
+                :alt="state.gitlab.allUserDetails[approver.username]?.username"
+                :title="state.gitlab.allUserDetails[approver.username]?.username"
+              />
+            </div>
+            <div class="detail-item revealing-content">
+              <span class="detail-item-title">Rules</span>
+              <div class="detail-item-description detail-item-description--column">
+                <span
+                  class="field"
+                  :key="rule"
+                  v-for="rule in approvalData.approvals?.approval_rules_left"
+                >
+                  {{ rule.name }}
+                </span>
+              </div>
             </div>
           </div>
         </div>
+
         <div class="detail-item">
           <span class="detail-item-title">STATUS</span>
           <div class="detail-item-description">
@@ -104,9 +107,10 @@ const state = store.state;
             {{ getComputed(mergeRequest.updated_at) }}
           </div>
         </div>
-      </div>
-      <div class="actions">
-        <a :href="mergeRequest.web_url" target="_blank">View MR</a>
+        <div class="detail-item detail-item--actions">
+          <span class="detail-item-title">ACTIONS</span>
+          <a :href="mergeRequest.web_url" target="_blank">View MR</a>
+        </div>
       </div>
     </div>
   </div>
