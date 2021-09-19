@@ -48,6 +48,11 @@ export const module = {
     setPage(state: GitLabStore, page: number) {
       state.currentPage = page;
     },
+    updateUserDetails(state: GitLabStore, userDetails: GitLabUser) {
+      const details: Mapping<GitLabUser> = { ...state.allUserDetails };
+      details[userDetails.username] = userDetails;
+      state.allUserDetails = details;
+    },
   },
   actions: {
     async fetchMergeRequests(context: ActionContext<GitLabStore, Store>) {
@@ -79,6 +84,10 @@ export const module = {
     },
     async initializeActiveUsers(context: ActionContext<GitLabStore, Store>) {
       context.commit('initializeActiveUsers');
+    },
+    async updateUserDetails(context: ActionContext<GitLabStore, Store>, userDetails: GitLabUser) {
+      console.log(`DEBUG ~ file: index.ts ~ line 90 ~ updateUserDetails ~ userDetails`, userDetails)
+      context.commit('updateUserDetails', userDetails);
     },
   },
 };

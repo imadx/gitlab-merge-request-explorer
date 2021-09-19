@@ -12,6 +12,9 @@ const approvalData: Ref<{ approvals: GitLabMergeRequestApproval | null }> = ref(
 });
 onMounted(async () => {
   approvalData.value.approvals = await (await getMergeRequestApprovals(props.mergeRequest)).data;
+  for (const approver of approvalData.value.approvals?.suggested_approvers) {
+    store.dispatch('gitlab/updateUserDetails', approver);
+  }
 });
 
 const getComputed = (date: string) => {
