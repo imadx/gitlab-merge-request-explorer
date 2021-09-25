@@ -1,4 +1,5 @@
 import { createStore } from 'vuex';
+import { GitLabStore } from '../types/gitlab';
 import { Store } from '../types/store';
 import { module as gitlabStore } from './gitlab';
 
@@ -7,6 +8,7 @@ export const store = createStore<Store>({
     return {
       count: 0,
       mergeRequests: [],
+      gitlab: {} as GitLabStore,
     };
   },
   mutations: {

@@ -4,7 +4,7 @@ import { store } from '../store';
 const state = store.state;
 
 const handleToggleActiveUser = (e: MouseEvent) => {
-  const { user } = e?.target?.dataset;
+  const { user } = (e?.target as HTMLElement)?.dataset;
   if (!user) {
     return;
   }

@@ -55,7 +55,7 @@ const state = store.state;
               <div class="detail-item-description detail-item-description--column">
                 <span
                   class="field"
-                  :key="rule"
+                  :key="rule.name"
                   v-for="rule in approvalData.approvals?.approval_rules_left"
                 >
                   {{ rule.name }}
