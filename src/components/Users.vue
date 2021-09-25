@@ -14,23 +14,44 @@ const handleToggleActiveUser = (e: MouseEvent) => {
 </script>
 
 <template>
-  <div class="all-users-container">
-    <div class="all-users">
-      <button :key="user" v-for="user in state.gitlab.allUsers" @click="handleToggleActiveUser" :data-user="user">
-        {{ user }}
-      </button>
-    </div>
-    <div class="active-users">
-      <button :key="user" v-for="user in state.gitlab.activeUsers" @click="handleToggleActiveUser" :data-user="user">
-        {{ user }}
-      </button>
-    </div>
-  </div>
+  <details class="all-users-container">
+    <summary>Users</summary>
+    <details>
+      <summary>All Users</summary>
+      <div class="all-users">
+        <button
+          :key="user"
+          v-for="user in state.gitlab.allUsers"
+          @click="handleToggleActiveUser"
+          :data-user="user"
+        >
+          {{ user }}
+        </button>
+      </div>
+    </details>
+    <details>
+      <summary>Active Users</summary>
+      <div class="active-users">
+        <button
+          :key="user"
+          v-for="user in state.gitlab.activeUsers"
+          @click="handleToggleActiveUser"
+          :data-user="user"
+        >
+          {{ user }}
+        </button>
+      </div>
+    </details>
+  </details>
 </template>
 
 <style scoped lang="scss">
 .all-users-container {
   width: 100%;
-  display: flex;
+
+  details {
+    border-left: solid thin 0.3rem;
+    padding-left: 1rem;
+  }
 }
 </style>
