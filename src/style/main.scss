@@ -1,6 +1,7 @@
 $color-black: #2e3440;
 $color-black-light: #3b4252;
 $color-white: #e5e9f0;
+$color-accent-accent: #00ffc8;
 $color-accent-yellow: #ebcb8b;
 $color-accent-blue: #88c0d0;
 $color-accent-green: #a3be8c;
@@ -10,6 +11,7 @@ body {
   font-family: monospace;
   background-color: $color-black;
   color: $color-white;
+  margin: 2rem 1rem;
 }
 
 a,
@@ -27,8 +29,23 @@ button {
   white-space: nowrap;
 
   &:hover {
-    background: $color-accent-yellow;
+    background: $color-accent-accent;
     color: $color-black;
+  }
+
+  svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
+
+button {
+  &.button-icon {
+    width: 2rem;
+    height: 2rem;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 
@@ -66,7 +83,7 @@ details {
       padding: 0;
 
       &:hover {
-        color: $color-accent-yellow;
+        color: $color-accent-accent;
       }
     }
   }
@@ -215,5 +232,14 @@ details {
   details {
     border-left: solid thin $color-black-light;
     padding-left: 1rem;
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+
+  button {
+    margin-left: 0.5rem;
   }
 }
