@@ -28,7 +28,7 @@ const state = store.state;
   <div class="merge-request-record">
     <div class="merge-request-record-title">
       <img class="avatar avatar-in-title" :src="mergeRequest.author.avatar_url" alt="" />
-      <a href="mergeRequest.web_url" target="_blank">{{ mergeRequest.title }}</a>
+      <a :href="mergeRequest.web_url" target="_blank">{{ mergeRequest.title }}</a>
     </div>
     <div class="merge-request-record-description">
       <div class="detail-item-container">
