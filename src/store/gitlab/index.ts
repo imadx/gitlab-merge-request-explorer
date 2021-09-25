@@ -86,7 +86,6 @@ export const module = {
       context.commit('initializeActiveUsers');
     },
     async updateUserDetails(context: ActionContext<GitLabStore, Store>, userDetails: GitLabUser) {
-      console.log(`DEBUG ~ file: index.ts ~ line 90 ~ updateUserDetails ~ userDetails`, userDetails)
       context.commit('updateUserDetails', userDetails);
     },
   },

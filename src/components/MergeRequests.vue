@@ -6,7 +6,6 @@ import { store } from '../store';
 
 const state = store.state;
 onMounted(() => {
-  console.log('mounted');
   store.dispatch('gitlab/fetchMergeRequests', 1);
 });
 
