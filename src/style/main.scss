@@ -60,23 +60,47 @@ details {
 }
 
 .avatar {
-  width: 24px;
-  height: 24px;
+  width: 1.2rem;
+  height: 1.2rem;
   background: $color-white;
   border-radius: 50%;
+  margin-right: 0.2rem;
+
+  & ~ .username {
+    margin-left: 0.1rem;
+    display: none;
+    white-space: nowrap;
+  }
+
+  &.avatar-in-title {
+    display: none;
+  }
 }
 
 .merge-request-record {
   display: flex;
   flex-direction: column;
-  padding-bottom: 1rem;
   border-bottom: solid thin $color-black-light;
-  margin-bottom: 1rem;
+  padding: 1rem;
+  margin: 0 -1rem;
+
+  &:nth-child(2) {
+    margin-top: -1rem !important;
+  }
+
+  &:hover {
+    background: $color-black-light;
+
+    a,
+    button {
+      background-color: $color-black;
+    }
+  }
 
   .merge-request-record-title {
     font-weight: bold;
-    font-size: 1.1em;
-    margin-bottom: 0.3rem;
+    font-size: 1.2em;
+    margin-bottom: 0.4rem;
 
     a {
       background: none;
@@ -160,13 +184,6 @@ details {
   }
 }
 
-.avatar {
-  width: 25px;
-  height: 25px;
-  border-radius: 25px;
-  border: solid thin #333;
-}
-
 .field {
   white-space: nowrap;
   display: block;
@@ -241,5 +258,51 @@ details {
 
   button {
     margin-left: 0.5rem;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .detail-item--right {
+    .has-revealing-content {
+      display: none !important;
+    }
+  }
+
+  .avatar {
+    & ~ .username {
+      display: block;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .detail-item--actions {
+    display: none !important;
+  }
+
+  .detail-item {
+    display: none !important;
+  }
+
+  .avatar-in-title {
+    display: inline-block !important;
+    margin-right: 0.5em;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .merge-request-record-title {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: 0 !important;
+
+    a {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 }

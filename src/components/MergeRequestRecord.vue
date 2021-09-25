@@ -27,6 +27,7 @@ const state = store.state;
 <template>
   <div class="merge-request-record">
     <div class="merge-request-record-title">
+      <img class="avatar avatar-in-title" :src="mergeRequest.author.avatar_url" alt="" />
       <a href="mergeRequest.web_url" target="_blank">{{ mergeRequest.title }}</a>
     </div>
     <div class="merge-request-record-description">
@@ -36,6 +37,7 @@ const state = store.state;
             <span class="detail-item-title">AUTHOR</span>
             <div class="detail-item-description">
               <img class="avatar" :src="mergeRequest.author.avatar_url" alt="" />
+              <span class="username">{{ mergeRequest.author.username }}</span>
             </div>
           </div>
           <div class="detail-item has-revealing-content">
