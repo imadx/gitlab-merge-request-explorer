@@ -44,14 +44,3 @@ const handleToggleActiveUser = (e: MouseEvent) => {
     </details>
   </details>
 </template>
-
-<style scoped lang="scss">
-.all-users-container {
-  width: 100%;
-
-  details {
-    border-left: solid thin 0.3rem;
-    padding-left: 1rem;
-  }
-}
-</style>
