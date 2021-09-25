@@ -68,8 +68,28 @@ const state = store.state;
         <div class="detail-item detail-item--wide">
           <span class="detail-item-title">STATUS</span>
           <div class="detail-item-description detail-item-description--with-mr-status">
-            <div class="merge-request-status merge-request-status--status">
+            <div
+              v-if="
+                ['cannot_be_merged', 'cannot_be_merged_recheck'].includes(mergeRequest.merge_status)
+              "
+              class="merge-request-status merge-request-status--has-conflicts"
+            >
               {{ mergeRequest.merge_status }}
+            </div>
+            <div
+              v-else-if="['can_be_merged', 'unchecked'].includes(mergeRequest.merge_status)"
+              class="merge-request-status merge-request-status--status"
+            >
+              {{ mergeRequest.merge_status }}
+            </div>
+            <div v-else class="merge-request-status merge-request-status--status">
+              {{ mergeRequest.merge_status }}
+            </div>
+            <div
+              v-if="mergeRequest.has_conflicts"
+              class="merge-request-status merge-request-status--has-conflicts"
+            >
+              HAS CONFLICTS
             </div>
             <div
               v-if="mergeRequest.has_conflicts"
