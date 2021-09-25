@@ -1,18 +1,13 @@
 import axios, { AxiosResponse, Method } from 'axios';
 import { GitLabMergeRequest, GitLabMergeRequestApproval } from '../../types/gitlab';
-import { getItem, setItem } from '../../utils/storage';
+import { getAuthHeader, getProjectId } from '../../utils/settings';
 
-const authHeaderKey = 'auth_header';
-
-let authHeader = getItem(authHeaderKey);
-if (!authHeader) {
-  authHeader = prompt('Please provide add your GitLab token here');
-  setItem(authHeaderKey, authHeader);
-}
+const authHeader = getAuthHeader();
+const projectId = getProjectId();
 
 const config = {
   method: 'GET' as Method,
-  url: 'https://gitlab.com/api/v4/projects/15577823/merge_requests?state=opened&per_page=100&not[author_username]=rb-gitlab-api-dev',
+  url: `https://gitlab.com/api/v4/projects/${projectId}/merge_requests?state=opened&per_page=100&not[author_username]=rb-gitlab-api-dev`,
   headers: {
     Authorization: `Bearer ${authHeader}`,
   },
@@ -50,8 +45,10 @@ export const getMergeRequests = async (
 export const getMergeRequestApprovals = async (
   mergeRequest: GitLabMergeRequest
 ): Promise<AxiosResponse<GitLabMergeRequestApproval>> => {
+  const projectId = getProjectId();
+
   return axios.get<GitLabMergeRequestApproval>(
-    `https://gitlab.com/api/v4/projects/15577823/merge_requests/${mergeRequest.iid}/approvals`,
+    `https://gitlab.com/api/v4/projects/${projectId}/merge_requests/${mergeRequest.iid}/approvals`,
     {
       headers: config.headers,
     }
