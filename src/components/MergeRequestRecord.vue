@@ -26,7 +26,9 @@ const state = store.state;
 
 <template>
   <div class="merge-request-record">
-    <div class="merge-request-record-title">{{ mergeRequest.title }}</div>
+    <div class="merge-request-record-title">
+      <a href="mergeRequest.web_url" target="_blank">{{ mergeRequest.title }}</a>
+    </div>
     <div class="merge-request-record-description">
       <div class="detail-item-container">
         <div class="detail-item--right">
@@ -63,9 +65,9 @@ const state = store.state;
           </div>
         </div>
 
-        <div class="detail-item">
+        <div class="detail-item detail-item--wide">
           <span class="detail-item-title">STATUS</span>
-          <div class="detail-item-description">
+          <div class="detail-item-description detail-item-description--with-mr-status">
             <div class="merge-request-status merge-request-status--status">
               {{ mergeRequest.merge_status }}
             </div>
