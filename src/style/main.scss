@@ -1,7 +1,10 @@
 $color-black: #2e3440;
 $color-black-light: #3b4252;
 $color-white: #e5e9f0;
-$color-accent-1: #ebcb8b;
+$color-accent-yellow: #ebcb8b;
+$color-accent-blue: #88c0d0;
+$color-accent-green: #a3be8c;
+$color-accent-red: #bf616a;
 
 body {
   font-family: monospace;
@@ -11,20 +14,31 @@ body {
 
 a,
 button {
-  cursor: pointer;
-  background: none;
-  border: solid thin $color-accent-1;
-  color: $color-accent-1;
-  padding: 0.3rem;
+  background: $color-black-light;
   border-radius: 0.2rem;
-  white-space: nowrap;
-  text-decoration: none;
-  font-weight: bold;
+  border: none;
+  color: $color-white;
+  cursor: pointer;
   font-family: monospace;
+  font-weight: bolder;
+  padding: 0.3rem 0.5rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
 
   &:hover {
-    background: $color-accent-1;
+    background: $color-accent-yellow;
     color: $color-black;
+  }
+}
+
+details {
+  display: block;
+  width: 100%;
+  margin: 1rem 0;
+
+  summary {
+    margin-bottom: 0.5rem;
   }
 }
 
@@ -38,10 +52,23 @@ button {
 .merge-request-record {
   display: flex;
   flex-direction: column;
+  padding-bottom: 1rem;
+  border-bottom: solid thin $color-black-light;
+  margin-bottom: 1rem;
 
   .merge-request-record-title {
     font-weight: bold;
     font-size: 1.1em;
+    margin-bottom: 0.3rem;
+
+    a {
+      background: none;
+      padding: 0;
+
+      &:hover {
+        color: $color-accent-yellow;
+      }
+    }
   }
   .merge-request-record-description {
     display: flex;
@@ -50,7 +77,7 @@ button {
 
 .detail-item-container {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
 
   .detail-item--right {
@@ -67,9 +94,14 @@ button {
   }
   .detail-item {
     margin-right: 1rem;
+    width: 6rem;
 
     &:last-child {
       margin-right: 0;
+    }
+
+    &.detail-item--wide {
+      width: 13rem;
     }
 
     .detail-item-title {
@@ -78,7 +110,7 @@ button {
       font-size: small;
       font-weight: bold;
       margin-right: 1rem;
-      padding-bottom: 0.4rem;
+      padding-bottom: 0.6rem;
     }
 
     .detail-item-description {
@@ -86,6 +118,26 @@ button {
 
       &.detail-item-description--column {
         flex-direction: column;
+      }
+
+      &.detail-item-description--with-mr-status {
+        flex-wrap: wrap;
+
+        .merge-request-status--status {
+          color: $color-white;
+        }
+        .merge-request-status--has-conflicts {
+          color: $color-accent-red;
+        }
+        .merge-request-status--is-draft {
+          color: $color-accent-blue;
+        }
+        .merge-request-status--is-approved {
+          color: $color-accent-green;
+        }
+        .merge-request-status--has-blocking-discussions {
+          color: $color-accent-red;
+        }
       }
     }
   }
@@ -107,6 +159,7 @@ button {
   position: relative;
 
   .revealing-content {
+    z-index: 999;
     pointer-events: none;
     display: block;
     position: absolute;
@@ -127,6 +180,10 @@ button {
       background-color: $color-black-light;
       transform: rotate(45deg) translateX(-50%);
     }
+
+    &.detail-item {
+      width: unset;
+    }
   }
 
   &:hover {
@@ -134,5 +191,29 @@ button {
       transform: translateY(0rem);
       opacity: 1;
     }
+  }
+}
+
+.merge-request-status {
+  display: block;
+  width: 100%;
+  text-transform: uppercase;
+  white-space: nowrap;
+  font-weight: bolder;
+  font-size: normal;
+  letter-spacing: 0.08rem;
+}
+
+.all-users-container {
+  width: 100%;
+
+  button {
+    margin-right: 0.3rem;
+    margin-bottom: 0.3rem;
+  }
+
+  details {
+    border-left: solid thin $color-black-light;
+    padding-left: 1rem;
   }
 }
