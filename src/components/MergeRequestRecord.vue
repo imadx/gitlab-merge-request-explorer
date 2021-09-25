@@ -42,7 +42,7 @@ const state = store.state;
             <span class="detail-item-title">APPROVERS</span>
             <div class="detail-item-description">
               <img
-                :key="approver"
+                :key="approver.id"
                 v-for="approver in approvalData.approvals?.suggested_approvers"
                 class="avatar"
                 :src="state.gitlab.allUserDetails[approver.username]?.avatar_url"

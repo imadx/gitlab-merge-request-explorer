@@ -50,6 +50,17 @@ export interface GitLabMergeRequest {
   approvals_before_merge: unknown;
 }
 
+export interface GitLabUser {
+  user: {
+    name: string;
+    username: string;
+    id: number;
+    state: 'active';
+    avatar_url: string;
+    web_url: string;
+  };
+}
+
 export interface GitLabMergeRequestApproval {
   id: number;
   iid: number;
@@ -58,18 +69,10 @@ export interface GitLabMergeRequestApproval {
   description: string;
   approvals_required: 2;
   approvals_left: 1;
-  approved_by: [
-    {
-      user: {
-        name: string;
-        username: string;
-        id: number;
-        state: 'active';
-        avatar_url: string;
-        web_url: string;
-      };
-    }
-  ];
+  approved: boolean;
+  approved_by: GitLabUser[];
+  suggested_approvers: GitLabUser[];
+  approval_rules_left: { name: string }[];
 }
 
 export interface GitLabStore {
