@@ -1,7 +1,7 @@
 import { ActionContext } from 'vuex';
 import { GitLabMergeRequest, GitLabStore, GitLabUser } from '../../types/gitlab';
 import { Mapping, Store } from '../../types/store';
-import { getItem, setItem } from '../../utils/storage';
+import { getItem, resetCache, setItem } from '../../utils/storage';
 import { getFilteredMergeRequests, getMergeRequests } from './service';
 
 const localStorageKeyForActiveUsers = 'active_users';
@@ -76,6 +76,11 @@ export const module = {
     },
     async nextPage(context: ActionContext<GitLabStore, Store>) {
       context.commit('setPage', Math.min(50, context.state.currentPage + 1));
+      await context.dispatch('fetchMergeRequests');
+    },
+    async handleRefreshCache(context: ActionContext<GitLabStore, Store>) {
+      resetCache();
+      context.commit('setPage', 1);
       await context.dispatch('fetchMergeRequests');
     },
     async toggleActiveUser(context: ActionContext<GitLabStore, Store>, user: string) {

@@ -11,3 +11,13 @@ export const getItem = <T>(key: string): T | null => {
 
   return JSON.parse(value) as T;
 };
+
+export const resetCache = () => {
+  let currentItem;
+  let i = 1;
+  do {
+    const key = `merge_requests_${i++}`;
+    currentItem = localStorage.getItem(key);
+    localStorage.removeItem(key);
+  } while (currentItem);
+};
